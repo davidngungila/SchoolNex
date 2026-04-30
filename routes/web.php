@@ -18,6 +18,13 @@ Route::get('/', function () {
     return view('dashboard');
 })->name('dashboard');
 
+// Profile Route
+Route::prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', function () {
+        return view('profile.index');
+    })->name('index');
+});
+
 // Subject Management Routes
 Route::prefix('subjects')->name('subjects.')->group(function () {
     Route::get('/', function () {
@@ -338,26 +345,36 @@ Route::prefix('settings')->name('settings.')->group(function () {
 
 // User Management Routes
 Route::prefix('users')->name('users.')->group(function () {
-    Route::get('/', function () {
-        return view('users.index');
-    })->name('index');
-    Route::get('/roles', function () {
-        return view('users.roles');
-    })->name('roles');
-    Route::get('/activity', function () {
-        return view('users.activity');
-    })->name('activity');
+    Route::get('/', [\App\Http\Controllers\UserController::class, 'index'])->name('index');
+    Route::get('/roles', [\App\Http\Controllers\UserController::class, 'roles'])->name('roles');
+    Route::get('/activity', [\App\Http\Controllers\UserController::class, 'activity'])->name('activity');
+    Route::post('/', [\App\Http\Controllers\UserController::class, 'store'])->name('store');
+    Route::put('/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('update');
+    Route::delete('/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('destroy');
+    Route::post('/{user}/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword'])->name('reset-password');
+    
+    // API Routes for AJAX requests
+    Route::get('/{user}/view', [\App\Http\Controllers\UserController::class, 'view'])->name('view');
+    Route::get('/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('edit');
+    Route::get('/{user}/permissions', [\App\Http\Controllers\UserController::class, 'permissions'])->name('permissions');
+    Route::get('/{user}/login-history', [\App\Http\Controllers\UserController::class, 'loginHistory'])->name('login-history');
+    Route::post('/{user}/suspend', [\App\Http\Controllers\UserController::class, 'suspend'])->name('suspend');
+    Route::post('/{user}/activate', [\App\Http\Controllers\UserController::class, 'activate'])->name('activate');
+    Route::post('/{user}/reset-password-ajax', [\App\Http\Controllers\UserController::class, 'resetPasswordAjax'])->name('reset-password-ajax');
+    Route::delete('/{user}/ajax', [\App\Http\Controllers\UserController::class, 'destroyAjax'])->name('destroy-ajax');
 });
 
 // Audit Routes
 Route::prefix('audit')->name('audit.')->group(function () {
+    Route::get('/system', [\App\Http\Controllers\AuditController::class, 'system'])->name('system');
     Route::get('/log', function () {
         return view('audit.log');
     })->name('log');
-    Route::get('/login', function () {
-        return view('audit.login');
-    })->name('login');
-    Route::get('/changes', function () {
-        return view('audit.changes');
-    })->name('changes');
+    Route::get('/login', [\App\Http\Controllers\AuditController::class, 'login'])->name('login');
+    Route::get('/changes', [\App\Http\Controllers\AuditController::class, 'changes'])->name('changes');
+    Route::post('/clear-logs', [\App\Http\Controllers\AuditController::class, 'clearSystemLogs'])->name('clear-logs');
+    Route::post('/export-logs', [\App\Http\Controllers\AuditController::class, 'exportSystemLogs'])->name('export-logs');
+    Route::post('/force-logout/{user}', [\App\Http\Controllers\AuditController::class, 'forceLogout'])->name('force-logout');
+    Route::post('/block-ip', [\App\Http\Controllers\AuditController::class, 'blockIp'])->name('block-ip');
+    Route::post('/rollback/{dataChange}', [\App\Http\Controllers\AuditController::class, 'rollbackChange'])->name('rollback');
 });

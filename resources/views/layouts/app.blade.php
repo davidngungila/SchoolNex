@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
+    
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
@@ -748,12 +751,12 @@
                                         <div class="dropdown-divider my-1"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="{{ route('profile.index') }}">
                                             <i class="icon-base bx bx-user icon-md me-3"></i><span>My Profile</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="{{ route('settings.general') }}">
                                             <i class="icon-base bx bx-cog icon-md me-3"></i><span>Settings</span>
                                         </a>
                                     </li>
@@ -789,7 +792,7 @@
                                     © {{ date('Y') }}, School Management System
                                 </div>
                                 <div class="d-none d-lg-inline-block">
-                                    <span class="footer-text">Powered by Jezdan Technology jezdantech.com</span>
+                                    <span class="footer-text">Powered by <a href="https://jezdantech.com" target="_blank" class="text-decoration-none">Jezdan Technology</a></span>
                                 </div>
                             </div>
                         </div>
@@ -820,6 +823,9 @@
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @stack('scripts')
 </body>
