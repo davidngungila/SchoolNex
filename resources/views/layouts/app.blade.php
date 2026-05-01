@@ -764,9 +764,12 @@
                                         <div class="dropdown-divider my-1"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="javascript:void(0);">
-                                            <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span>
-                                        </a>
+                                        <form method="POST" action="{{ route('logout') }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to log out?');">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item" style="border: none; background: none; width: 100%; text-align: left; padding: 0.5rem 1rem;">
+                                                <i class="icon-base bx bx-power-off icon-md me-3"></i><span>Log Out</span>
+                                            </button>
+                                        </form>
                                     </li>
                                 </ul>
                             </li>

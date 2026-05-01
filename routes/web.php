@@ -13,20 +13,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Authentication Routes
+Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login.post');
+Route::get('/logout', function () {
+    return redirect()->route('login');
+});
+Route::post('/logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
 // Dashboard Route
 Route::get('/', function () {
     return view('dashboard');
-})->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
 // Profile Route
-Route::prefix('profile')->name('profile.')->group(function () {
+Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('profile.index');
     })->name('index');
 });
 
 // Subject Management Routes
-Route::prefix('subjects')->name('subjects.')->group(function () {
+Route::prefix('subjects')->name('subjects.')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('subjects.index');
     })->name('index');
@@ -42,7 +50,7 @@ Route::prefix('subjects')->name('subjects.')->group(function () {
 });
 
 // Attendance Management Routes
-Route::prefix('attendance')->name('attendance.')->group(function () {
+Route::prefix('attendance')->name('attendance.')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('attendance.index');
     })->name('index');
@@ -58,7 +66,7 @@ Route::prefix('attendance')->name('attendance.')->group(function () {
 });
 
 // Timetable Management Routes
-Route::prefix('timetable')->name('timetable.')->group(function () {
+Route::prefix('timetable')->name('timetable.')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('timetable.index');
     })->name('index');
@@ -77,7 +85,7 @@ Route::prefix('timetable')->name('timetable.')->group(function () {
 });
 
 // Class Journal Routes
-Route::prefix('class-journal')->name('class-journal.')->group(function () {
+Route::prefix('class-journal')->name('class-journal.')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('class-journal.index');
     })->name('index');
@@ -96,7 +104,7 @@ Route::prefix('class-journal')->name('class-journal.')->group(function () {
 });
 
 // Finance Management Routes
-Route::prefix('finance')->name('finance.')->group(function () {
+Route::prefix('finance')->name('finance.')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('finance.index');
     })->name('index');
